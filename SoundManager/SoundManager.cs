@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 /**
@@ -9,6 +8,7 @@ using System.Collections.Generic;
  * 	 ScriptAddObjectにSoundManagerタグを追加してください
  **/ 
 public class SoundManager : MonoBehaviour {
+		
 	// インスタンス保持
 	protected static SoundManager instance;
 	
@@ -27,20 +27,21 @@ public class SoundManager : MonoBehaviour {
 			return instance;
 		}
 	}
-				
+	
+	/** === public === */	
 	public bool mute = false;						// ミュート
-	public int concurrentSEPlayCount = 16;			// 最大同時再生数
+	public int concurrentPlayCount = 16;			// 最大同時再生数
 	
 	public SoundInfo[] BGM; 						// BGM
 	public SoundInfo[] SE;							// SE
 	public SoundInfo[] Voice;						// 音声
 	
 	
-	/** Private */
-	// === Souce保持 ===
+	/** === Private === */
+	// Resouce管理 
 	private Dictionary<string,SoundInfo> resouceDictionary = new Dictionary<string,SoundInfo>();
 	
-	// === 再生用AudioSource ===
+	// 再生用AudioSource
 	private AudioSource BGMsource;				// BGM
 	private AudioSource[] SEsources;			// SE
 	private AudioSource[] VoiceSources;			// 音声
@@ -52,8 +53,8 @@ public class SoundManager : MonoBehaviour {
 		else 				{ DontDestroyOnLoad(gameObject);}	// 音管理はシーン遷移では破棄させない
 		
 		// 初期化
-		SEsources 		= new AudioSource[concurrentSEPlayCount];
-		VoiceSources 	= new AudioSource[concurrentSEPlayCount];
+		SEsources 		= new AudioSource[concurrentPlayCount];
+		VoiceSources 	= new AudioSource[concurrentPlayCount];
 		
 		// 全ての再生用AudioSourceコンポーネントを追加する
 		// BGM AudioSource
@@ -86,16 +87,10 @@ public class SoundManager : MonoBehaviour {
 	
 	
 	void Update () {
-		
 		// ミュート設定
 		BGMsource.mute = mute;
-		
-		foreach(AudioSource source in SEsources ){
-			source.mute = mute;
-		}
-		foreach(AudioSource source in VoiceSources ){
-			source.mute = mute;
-		}
+		foreach(AudioSource source in SEsources )	{ source.mute = mute; }
+		foreach(AudioSource source in VoiceSources ){ source.mute = mute;}
 	}
 	
 	
@@ -105,12 +100,11 @@ public class SoundManager : MonoBehaviour {
 	 **/
 	public void PlayBGM(string filename)
 	{	
+		// サウンド情報の取得
 		SoundInfo si = resouceDictionary[filename];
 		
 		// 同じBGMの場合は何もしない
-		if( BGMsource.clip == si.audioClip ){
-			return;
-		}
+		if( BGMsource.clip == si.audioClip ){ return; }
 		
 		BGMsource.Stop();
 		BGMsource.volume 	= si.volime;
@@ -193,7 +187,7 @@ public class SoundManager : MonoBehaviour {
 
 
 /**
- * SoundInfomation管理Class
+ * SoundInfomation管理インナーClass
  **/
 [Serializable]
 public class SoundInfo
