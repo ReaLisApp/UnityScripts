@@ -19,7 +19,7 @@ GameObjectにSoundManagerタグを追加 <br/>
 -- AudioClip ファイル<br/>
 -- Volume    音量<br/>
 <br/>
-![Alt img](./00_image/1.png)
+![Alt img](../00_image/1.png)
 <br/>
 <h2>再生方法</h2>
 **BGM<br/>
