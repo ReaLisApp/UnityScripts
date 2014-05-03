@@ -1,11 +1,11 @@
 SoundManager
 ============
-@SingletonObject
-AudioClip再生管理を行うClass
-音声ファイルごとにVolumeを変更することも可能
-
-
-
+@SingletonObject<br/>
+AudioClip再生管理を行うClass<br/>
+音声ファイルごとにVolumeを変更することも可能<br/>
+　<br/>
+　<br/>
+　<br/>
 === 使用方法 ===　<br/>
 新規GameObjectを作成 <br/>
 SoundManagerをGameObjectに追加 <br/>
